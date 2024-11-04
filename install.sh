@@ -337,12 +337,12 @@ install() {
     success "Password selected."
 
     # Get valid database directory path
-    db_path="/var/lib/marzban/"
+    db_path="/usr/local/s-ui/db/"
     while true; do
-        input "Enter the database directory path [Default: /var/lib/marzban/]: " user_input
+        input "Enter the database directory path [Default: /usr/local/s-ui/db/]: " user_input
         # Use default path if user input is empty
         if [ -z "$user_input" ]; then
-            db_path="/var/lib/marzban/"
+            db_path="/usr/local/s-ui/db/"
         else
             db_path="$user_input"
         fi
@@ -389,7 +389,6 @@ install() {
     error "Password: $password #Please keep this password safe. DO NOT SHARE IT WITH ANYONE."
     print ""
     print "Database path: $db_path"
-    print "Backup location: /root/backup_marzban_db/"
 
 
     # Confirmation
