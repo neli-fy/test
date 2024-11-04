@@ -147,40 +147,6 @@ get_single_ssl() {
     get_single_ssl "$domain" "$email" 
 }
 
-
-
-backup_directory() {
-    local src_dir="$1"
-    local backup_dir="/root/backup_s_ui_db/"
-    local timestamp=$(date +"%Y%m%d_%H%M%S")
-    local backup_file="${backup_dir}backup_${timestamp}.tar.gz"
-
-    # Check if source directory exists
-    if [ ! -d "$src_dir" ]; then
-        error "Source directory '$src_dir' does not exist."
-        return 1
-    fi
-
-    # Create backup directory if it doesn't exist
-    if [ ! -d "$backup_dir" ]; then
-        mkdir -p "$backup_dir"
-        if [ $? -ne 0 ]; then
-            error "Failed to create backup directory '$backup_dir'."
-            return 1
-        fi
-    fi
-
-    # Create the backup
-    tar -czf "$backup_file" -C "$(dirname "$src_dir")" "$(basename "$src_dir")"
-    if [ $? -eq 0 ]; then
-        success "Backup created successfully at '$backup_file'."
-        return 0
-    else
-        error "Failed to create backup."
-        return 1
-    fi
-}
-
 # Example usage:
 # copy_directory_contents "/path/to/source/directory" "destination_folder_name"
 
@@ -383,13 +349,6 @@ install() {
 
         if is_valid_path "$db_path"; then
             success "Database path '$db_path' selected."
-
-            # Perform backup
-            backup_directory "$db_path"
-            if [ $? -ne 0 ]; then
-                error "Backup failed. Exiting."
-                exit 1
-            fi
 
             break
         else
